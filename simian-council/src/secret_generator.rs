@@ -6,13 +6,14 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 
-pub fn generate(num: u8, bits: u8) -> String {
-    let dictionary = get_50k_dictionary();
+pub fn generate(num: u8, start_enthro_level: u8, end_enthro_level: u8) -> String {
+    let dictionary = get_dictionary();
     let mut rng = rand::thread_rng();
     let mut secret: String = String::new();
+    let range = get_range(end_enthro_level, dictionary.len());
+    println!("range selected {:?}", range);
 
-    let index = (2 as usize).pow(bits as u32);
-    let (filtered_dictionary, _) = dictionary.split_at(index);
+    let (filtered_dictionary, _) = dictionary.split_at(range);
 
     for _ in 0..num {
         let random_index = rng.gen_range(1, filtered_dictionary.len());
@@ -21,6 +22,14 @@ pub fn generate(num: u8, bits: u8) -> String {
     }
 
     secret
+}
+
+fn get_range(mut enthropy_level: u8, max_size: usize) -> usize {
+    if enthropy_level > 100 {
+        enthropy_level = 100;
+    }
+    let percent: f32 = (enthropy_level as f32) / 100.0;
+    (max_size as f32 * percent) as usize
 }
 
 fn get_dictionary() -> Box<Vec<DictionaryEntry>> {
@@ -51,7 +60,7 @@ fn get_dictionary() -> Box<Vec<DictionaryEntry>> {
 
 fn get_50k_dictionary() -> Box<Vec<DictionaryEntry>> {
     let mut dictionary: Vec<DictionaryEntry> = Vec::new();
-    let path = Path::new("./resources/fr_50k.txt");
+    let path = Path::new("./resources/en_50k.txt");
 
     let file = match File::open(&path) {
         Err(why) => panic!("couldn't open {}: {}", path.display(), why.description()),

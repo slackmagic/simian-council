@@ -26,6 +26,6 @@ fn main() {
     .ok();
     */
 
-    let secret = simian_council::ask_for_a_secret(10, 15);
+    let secret = simian_council::ask_for_a_secret(100, 1, 100);
     println!("This is your secret : {}", secret);
 }
