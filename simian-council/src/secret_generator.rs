@@ -36,12 +36,7 @@ fn get_dictionary() -> Box<Vec<DictionaryEntry>> {
     let mut dictionary: Vec<DictionaryEntry> = Vec::new();
     let path = Path::new("./resources/wordlist");
 
-    let file = match File::open(&path) {
-        Err(why) => panic!("couldn't open {}: {}", path.display(), why.description()),
-        Ok(file) => file,
-    };
-
-    for line in BufReader::new(file).lines() {
+    for line in BufReader::new(get_file(&path)).lines() {
         match line {
             Err(why) => panic!("couldn't read line: {}", why.description()),
             Ok(line) => {
@@ -62,12 +57,7 @@ fn get_50k_dictionary() -> Box<Vec<DictionaryEntry>> {
     let mut dictionary: Vec<DictionaryEntry> = Vec::new();
     let path = Path::new("./resources/en_50k.txt");
 
-    let file = match File::open(&path) {
-        Err(why) => panic!("couldn't open {}: {}", path.display(), why.description()),
-        Ok(file) => file,
-    };
-
-    for line in BufReader::new(file).lines() {
+    for line in BufReader::new(get_file(&path)).lines() {
         match line {
             Err(why) => panic!("couldn't read line: {}", why.description()),
             Ok(line) => {
@@ -82,4 +72,12 @@ fn get_50k_dictionary() -> Box<Vec<DictionaryEntry>> {
     }
 
     Box::new(dictionary)
+}
+
+fn get_file(path: &Path) -> File {
+    let file = match File::open(&path) {
+        Err(why) => panic!("couldn't open {}: {}", path.display(), why.description()),
+        Ok(file) => file,
+    };
+    file
 }
