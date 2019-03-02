@@ -7,14 +7,16 @@ use std::io::{BufRead, BufReader};
 use std::path::Path;
 
 pub fn generate(num: u8, start_enthro_level: u8, end_enthro_level: u8) -> String {
-    let dictionary = get_dictionary();
     let mut rng = rand::thread_rng();
     let mut secret: String = String::new();
-    let range = get_range(end_enthro_level, dictionary.len());
-    println!("range selected {:?}", range);
 
-    let (filtered_dictionary, _) = dictionary.split_at(range);
+    //Slice dictionary
+    let dictionary = get_dictionary();
+    let start_range = get_range(start_enthro_level, dictionary.len());
+    let end_range = get_range(end_enthro_level, dictionary.len());
+    let filtered_dictionary = &dictionary[start_range..end_range];
 
+    //Create secret
     for _ in 0..num {
         let random_index = rng.gen_range(1, filtered_dictionary.len());
         secret += &filtered_dictionary[random_index].word;
