@@ -12,6 +12,7 @@ pub fn generate(num: u8, start_enthro_level: u8, end_enthro_level: u8) -> String
 
     //Slice dictionary
     let dictionary = get_dictionary();
+    validate_range(start_enthro_level, end_enthro_level);
     let start_range = get_range(start_enthro_level, dictionary.len());
     let end_range = get_range(end_enthro_level, dictionary.len());
     let filtered_dictionary = &dictionary[start_range..end_range];
@@ -24,6 +25,15 @@ pub fn generate(num: u8, start_enthro_level: u8, end_enthro_level: u8) -> String
     }
 
     secret
+}
+
+fn validate_range(start_enthro_level: u8, end_enthro_level: u8) {
+    if start_enthro_level > end_enthro_level {
+        panic!(
+            "Start point must be lesser than endpoint : {:?} > {:?}",
+            start_enthro_level, end_enthro_level
+        );
+    }
 }
 
 fn get_range(mut enthropy_level: u8, max_size: usize) -> usize {
