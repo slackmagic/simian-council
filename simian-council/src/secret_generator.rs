@@ -1,8 +1,8 @@
 pub mod dictionary_entry;
 use crate::secret_generator::dictionary_entry::*;
+use crate::utils::file_interactor::*;
 use rand::prelude::*;
 use std::error::Error;
-use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 
@@ -46,7 +46,7 @@ fn get_range(mut enthropy_level: u8, max_size: usize) -> usize {
 
 fn get_dictionary() -> Box<Vec<DictionaryEntry>> {
     let mut dictionary: Vec<DictionaryEntry> = Vec::new();
-    let path = Path::new("./resources/wordlist");
+    let path = Path::new("./resources/word/en_word_list.txt");
 
     for line in BufReader::new(get_file(&path)).lines() {
         match line {
@@ -67,7 +67,7 @@ fn get_dictionary() -> Box<Vec<DictionaryEntry>> {
 
 fn get_50k_dictionary() -> Box<Vec<DictionaryEntry>> {
     let mut dictionary: Vec<DictionaryEntry> = Vec::new();
-    let path = Path::new("./resources/en_50k.txt");
+    let path = Path::new("./resources/word/en_50k.txt");
 
     for line in BufReader::new(get_file(&path)).lines() {
         match line {
@@ -84,12 +84,4 @@ fn get_50k_dictionary() -> Box<Vec<DictionaryEntry>> {
     }
 
     Box::new(dictionary)
-}
-
-fn get_file(path: &Path) -> File {
-    let file = match File::open(&path) {
-        Err(why) => panic!("couldn't open {}: {}", path.display(), why.description()),
-        Ok(file) => file,
-    };
-    file
 }
