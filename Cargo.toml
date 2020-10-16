@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "simian-council-bin",
+    "simian-council-wasm",
     "simian-council"
 ]
