@@ -6,7 +6,7 @@ use std::path::Path;
 
 pub fn generate() -> String {
     let mut rng = rand::thread_rng();
-    let path = Path::new("./resources/pokemon/fr.json");
+    let path = Path::new("./resources/pokemon/en.json");
 
     let pokemon_data = get_file_as_string(path);
     let list: Vec<String> = serde_json::from_str(&pokemon_data).unwrap();
