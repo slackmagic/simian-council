@@ -19,11 +19,10 @@ pub fn greet() {
     alert("Hello, simian-council-wasm!");
 }
 
-/*
 #[wasm_bindgen]
 pub fn ask_for_a_pokemon() -> String {
     ask_for_a_pokemon()
-}*/
+}
 
 #[wasm_bindgen]
 pub fn ask_for_a_secret(num: u8, start_enthro_level: u8, end_enthro_level: u8) -> String {
